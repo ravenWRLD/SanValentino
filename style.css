@@ -1,264 +1,157 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// check password
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    const correctPassword = '19-08-2024';
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ff6b9d 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    color: white;
-    position: relative;
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
+    if (password == correctPassword) {
+        document.getElementById('passwordScreen').classList.add('hidden');
+        setTimeout(() => {
+            document.getElementById('mainContent').classList.add('visible');
+            // Avvia le particelle solo dopo aver sbloccato
+            startParticles();
+        }, 500);
+    } else {
+        const errorMsg = document.getElementById('errorMessage');
+        errorMsg.classList.add('show');
+        setTimeout(() => {
+            errorMsg.classList.remove('show');
+        }, 3000);
     }
 }
 
-/* password screen */
-#passwordScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ff6b9d 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
+// allow enter key to submit password
+document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
 
-#passwordScreen.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
+// love timer: count up from August 19, 2024
+function updateLoveTimer() {
+    const startDate = new Date('2024-08-19T00:00:00');
+    const now = new Date();
+    const diff = now - startDate;
 
-.password-container {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(30px);
-    border-radius: 30px;
-    padding: 60px 50px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    text-align: center;
-    animation: scaleIn 0.6s ease;
-    max-width: 550px;
-    width: 90%;
-}
+    // convert to seconds, minutes, hours, days
+    const totalSeconds = Math.floor(diff / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalDays = Math.floor(totalHours / 24);
 
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
+    // calculate years, months, days, hours, minutes, seconds
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+
+    if (months < 0) {
+        years--;
+        months += 12;
     }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
+    const startDay = startDate.getDate();
+    const nowDay = now.getDate();
+    let days = nowDay - startDay;
+
+    if (days < 0) {
+        months--;
+        const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += lastMonth.getDate();
     }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    document.getElementById('years').textContent = years;
+    document.getElementById('months').textContent = months;
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
 }
 
-.password-container h2 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    text-align: 0 2px 10px rgba(0, 0, 0, 0.2);
+updateLoveTimer();
+setInterval(updateLoveTimer, 1000);
+
+// Lightbox per ingrandire le foto polaroid
+document.addEventListener('DOMContentLoaded', function () {
+    // Crea il lightbox
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = `
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Foto ingrandita">
+    `;
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+
+    // Aggiungi click listener a tutte le polaroid
+    const polaroids = document.querySelectorAll('.polaroid img');
+    polaroids.forEach(img => {
+        img.addEventListener('click', function (e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.classList.add('active');
+            lightbox.classList.remove('closing');
+        });
+    });
+
+    // Funzione per chiudere con animazione
+    function closeLightbox() {
+        lightbox.classList.add('closing');
+        setTimeout(() => {
+            lightbox.classList.remove('active');
+            lightbox.classList.remove('closing');
+        }, 300); // durata animazione
+    }
+
+    // Chiudi il lightbox cliccando ovunque
+    lightbox.addEventListener('click', function () {
+        closeLightbox();
+    });
+
+    // Chiudi con il pulsante X
+    closeBtn.addEventListener('click', function () {
+        closeLightbox();
+    });
+
+    // Chiudi con il tasto ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+});
+
+// Crea particelle di cuori che cadono
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.animationDelay = Math.random() * 3 + 's';
+    particle.style.animationDuration = (Math.random() * 3 + 6) + 's'; // tra 6 e 9 secondi
+
+    document.body.appendChild(particle);
+
+    // Rimuovi la particella dopo l'animazione
+    setTimeout(() => {
+        particle.remove();
+    }, 10000);
 }
 
-.password-container p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-bottom: 30px;
-}
+// Funzione per avviare le particelle (chiamata solo dopo sblocco password)
+function startParticles() {
+    // Crea particelle regolarmente
+    setInterval(createParticle, 400); // ogni 400ms
 
-.password-input {
-    width: 100%;
-    padding: 18px 25px;
-    font-size: 1.2rem;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    text-align: center;
-    margin-bottom: 25px;
-    transition: all 0.3s ease;
-    letter-spacing: 2px;
-}
-
-.password-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.password-input:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.02);
-}
-
-.password-btn {
-    width: 100%;
-    padding: 18px;
-    font-size: 1.2rem;
-    background: linear-gradient(135deg, #ff6b9d, #f5576c);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(247, 87, 108, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.password-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(245, 87, 108, 0.6);
-}
-
-.error-message {
-    color: #ffebee;
-    background-color: rgba(244, 67, 54, 0.3);
-    padding: 12px;
-    border-radius: 10px;
-    margin-top: 15px;
-    display: none;
-    animation: shake 0.5s ease;
-}
-
-.error-message.show {
-    display: block;
-}
-
-@keyframes shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-10px);
-    }
-
-    75% {
-        transform: translateX(10px);
-    }
-}
-
-
-/* main content */
-#mainContent {
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-#mainContent.visible {
-    opacity: 1;
-}
-
-.main-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    position: relative;
-    z-index: 10;
-}
-
-/* ========================================
-   MEDIA QUERIES - RESPONSIVE DESIGN
-   ======================================== */
-
-/* Small phones (portrait) - fino a 480px */
-@media screen and (max-width: 480px) {
-    .password-container {
-        padding: 30px 20px;
-        max-width: 95%;
-        border-radius: 20px;
-    }
-
-    .password-container h2 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-    }
-
-    .password-container p {
-        font-size: 0.95rem;
-        margin-bottom: 20px;
-    }
-
-    .password-input {
-        padding: 14px 20px;
-        font-size: 1rem;
-        margin-bottom: 20px;
-    }
-
-    .password-btn {
-        padding: 14px;
-        font-size: 1rem;
-    }
-
-    .main-container {
-        padding: 20px 15px;
-    }
-}
-
-/* Phones (portrait and landscape) - 481px to 768px */
-@media screen and (min-width: 481px) and (max-width: 768px) {
-    .password-container {
-        padding: 45px 35px;
-        max-width: 90%;
-    }
-
-    .password-container h2 {
-        font-size: 2.2rem;
-    }
-
-    .password-container p {
-        font-size: 1rem;
-    }
-
-    .password-input {
-        padding: 16px 22px;
-        font-size: 1.1rem;
-    }
-
-    .password-btn {
-        padding: 16px;
-        font-size: 1.1rem;
-    }
-
-    .main-container {
-        padding: 30px 20px;
-    }
-}
-
-/* Tablets - 769px to 1024px */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .password-container {
-        padding: 50px 40px;
-        max-width: 85%;
-    }
-
-    .main-container {
-        padding: 35px 25px;
+    // Crea alcune particelle iniziali
+    for (let i = 0; i < 10; i++) {
+        setTimeout(createParticle, i * 200);
     }
 }
