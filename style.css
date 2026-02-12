@@ -181,5 +181,84 @@ body {
     padding: 40px 20px;
     position: relative;
     z-index: 10;
-    background-color: aqua;
+}
+
+/* ========================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+   ======================================== */
+
+/* Small phones (portrait) - fino a 480px */
+@media screen and (max-width: 480px) {
+    .password-container {
+        padding: 30px 20px;
+        max-width: 95%;
+        border-radius: 20px;
+    }
+
+    .password-container h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .password-container p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+
+    .password-input {
+        padding: 14px 20px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .password-btn {
+        padding: 14px;
+        font-size: 1rem;
+    }
+
+    .main-container {
+        padding: 20px 15px;
+    }
+}
+
+/* Phones (portrait and landscape) - 481px to 768px */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .password-container {
+        padding: 45px 35px;
+        max-width: 90%;
+    }
+
+    .password-container h2 {
+        font-size: 2.2rem;
+    }
+
+    .password-container p {
+        font-size: 1rem;
+    }
+
+    .password-input {
+        padding: 16px 22px;
+        font-size: 1.1rem;
+    }
+
+    .password-btn {
+        padding: 16px;
+        font-size: 1.1rem;
+    }
+
+    .main-container {
+        padding: 30px 20px;
+    }
+}
+
+/* Tablets - 769px to 1024px */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .password-container {
+        padding: 50px 40px;
+        max-width: 85%;
+    }
+
+    .main-container {
+        padding: 35px 25px;
+    }
 }
