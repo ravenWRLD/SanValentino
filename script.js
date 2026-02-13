@@ -155,3 +155,59 @@ function startParticles() {
         setTimeout(createParticle, i * 200);
     }
 }
+
+// Audio player control
+document.addEventListener('DOMContentLoaded', function () {
+    const audio = document.getElementById('romanticMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+    const volumeControl = document.getElementById('volumeControl');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const durationDisplay = document.getElementById('duration');
+
+    if (!audio || !playPauseBtn) return;
+
+    // Formatta il tempo in mm:ss
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Play/Pause toggle
+    playPauseBtn.addEventListener('click', function () {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.textContent = '⏸️';
+        } else {
+            audio.pause();
+            playPauseBtn.textContent = '▶️';
+        }
+    });
+
+    // Aggiorna la progress bar durante la riproduzione
+    audio.addEventListener('timeupdate', function () {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.value = progress;
+        currentTimeDisplay.textContent = formatTime(audio.currentTime);
+    });
+
+    // Mostra la durata totale quando i metadati sono caricati
+    audio.addEventListener('loadedmetadata', function () {
+        durationDisplay.textContent = formatTime(audio.duration);
+    });
+
+    // Permetti di scorrere la canzone cliccando sulla barra
+    progressBar.addEventListener('input', function () {
+        const time = (progressBar.value / 100) * audio.duration;
+        audio.currentTime = time;
+    });
+
+    // Controllo volume
+    volumeControl.addEventListener('input', function () {
+        audio.volume = volumeControl.value / 100;
+    });
+
+    // Imposta il volume iniziale
+    audio.volume = 1;
+});
