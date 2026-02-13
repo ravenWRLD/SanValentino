@@ -92,6 +92,32 @@
         </div>
     </div>
 
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <audio id="romanticMusic" loop>
+            <source src="le-luci-della-citta.mp3" type="audio/mpeg">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+
+        <div class="player-container">
+            <button id="playPauseBtn" class="play-pause-btn">▶️</button>
+
+            <div class="player-controls">
+                <div class="progress-container">
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                    <input type="range" id="progressBar" class="progress-bar" value="0" min="0" max="100" step="0.1">
+                </div>
+
+                <div class="volume-container">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range" id="volumeControl" class="volume-slider" value="100" min="0" max="100">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
