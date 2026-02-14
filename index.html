@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💕 Biglietto San Valentino 💕</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,10 +27,26 @@
 
     <!-- main content -->
     <div id="mainContent">
+        <h1>"Da quali stelle siamo caduti per incontrarci qui?"</h1>
         <div class="main-container">
             <div class="message-card">
                 <h2>Lettera</h2>
-                <p>Ti amo.</p>
+                <p>Sei arrivata in un periodo della mia vita in cui avevo smesso di credere a tutto.</p>
+                <p>Avevo smesso di credere nell’amore, nell’amicizia e persino nell’idea di un futuro felice.</p>
+
+                <p>Sei arrivata quando non ti stavo cercando.</p>
+                <p>Avevo deciso di dedicarmi completamente a me stesso e ai miei obiettivi, convinto che bastasse per
+                    andare avanti.</p>
+
+                <p>E invece sei arrivata tu.</p>
+                <p>In punta di piedi, senza fare rumore, e sei riuscita a cambiare il modo in cui guardo il mondo.</p>
+
+                <p>Grazie a te sono tornato ad amare.</p>
+                <p>Grazie a te ho capito che il mondo non è tutto marcio come sembra, che esistono ancora persone
+                    capaci di restituire luce anche ai giorni più bui.</p>
+
+                <p>Se oggi riesco a sorridere con più leggerezza, nonostante tutte le cose di cui non riesco nemmeno a
+                    parlarne, è perché ci sei tu.</p>
             </div>
 
             <div class="love-timer">
@@ -54,6 +75,37 @@
                     <div class="time-unit">
                         <span class="time-number" id="seconds">0</span>
                         <span class="time-label">SECONDI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="audio-player">
+                <audio id="romanticMusic" loop>
+                    <source src="le-luci-della-citta.mp3" type="audio/mpeg">
+                    Il tuo browser non supporta l'elemento audio.
+                </audio>
+                <div class="player-container">
+                    <h3>Una canzone che mi fa pensare a te</h3>
+                    <div class="player-controls-wrapper">
+                        <button id="playPauseBtn" class="play-pause-btn">▶️</button>
+
+                        <div class="player-controls">
+                            <div class="progress-container">
+                                <div class="time-display">
+                                    <span id="currentTime">0:00</span>
+                                    <span id="duration">0:00</span>
+                                </div>
+                                <input type="range" id="progressBar" class="progress-bar" value="0" min="0" max="100"
+                                    step="0.1">
+                            </div>
+
+                            <div class="volume-container">
+                                <span class="volume-icon">🔊</span>
+                                <input type="range" id="volumeControl" class="volume-slider" value="100" min="0"
+                                    max="100">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,34 +143,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Audio Player -->
-    <div class="audio-player">
-        <audio id="romanticMusic" loop>
-            <source src="le-luci-della-citta.mp3" type="audio/mpeg">
-            Il tuo browser non supporta l'elemento audio.
-        </audio>
-
-        <div class="player-container">
-            <button id="playPauseBtn" class="play-pause-btn">▶️</button>
-
-            <div class="player-controls">
-                <div class="progress-container">
-                    <div class="time-display">
-                        <span id="currentTime">0:00</span>
-                        <span id="duration">0:00</span>
-                    </div>
-                    <input type="range" id="progressBar" class="progress-bar" value="0" min="0" max="100" step="0.1">
-                </div>
-
-                <div class="volume-container">
-                    <span class="volume-icon">🔊</span>
-                    <input type="range" id="volumeControl" class="volume-slider" value="100" min="0" max="100">
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 
