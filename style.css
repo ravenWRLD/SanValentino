@@ -175,6 +175,15 @@ body {
     opacity: 1;
 }
 
+#mainContent h1 {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: 25px;
+    margin-top: 75px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Dancing Script', cursive;
+}
+
 .main-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -208,10 +217,11 @@ body {
 }
 
 .message-card p {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     line-height: 2;
-    text-align: center;
+    text-align: left;
     opacity: 0.95;
+    font-family: 'Dancing Script', cursive;
 }
 
 @keyframes slideUp {
@@ -236,7 +246,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: slideUp 1s ease 0.6s both;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .love-timer:hover {
@@ -499,30 +509,39 @@ body {
 }
 
 /* Audio Player */
-.audio-player {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-    max-width: 400px;
-}
-
 .player-container {
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(30px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    padding: 20px;
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 50px;
+    margin-bottom: 50px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideUp 1s ease 0.6s both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
+    flex-direction: column;
+    gap: 25px;
 }
 
 .player-container:hover {
+    transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     background: rgba(255, 255, 255, 0.2);
+}
+
+.player-container h3 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.player-controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .play-pause-btn {
@@ -621,6 +640,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 20%;
 }
 
 .volume-icon {
