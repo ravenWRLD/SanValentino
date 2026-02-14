@@ -79,24 +79,38 @@ setInterval(updateLoveTimer, 1000);
 
 // Lightbox per ingrandire le foto polaroid
 document.addEventListener('DOMContentLoaded', function () {
-    // Crea il lightbox
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
     lightbox.innerHTML = `
         <span class="lightbox-close">&times;</span>
-        <img src="" alt="Foto ingrandita">
+        <img src="" alt="Foto ingrandita" style="display: none;">
+        <video src="" controls style="display: none;"></video>
     `;
     document.body.appendChild(lightbox);
 
     const lightboxImg = lightbox.querySelector('img');
+    const lightboxVideo = lightbox.querySelector('video');
     const closeBtn = lightbox.querySelector('.lightbox-close');
 
-    // Aggiungi click listener a tutte le polaroid
-    const polaroids = document.querySelectorAll('.polaroid img');
-    polaroids.forEach(img => {
-        img.addEventListener('click', function (e) {
+    // Aggiungi click listener a tutte le polaroid (sia img che video)
+    const polaroidItems = document.querySelectorAll('.polaroid img, .polaroid video');
+    polaroidItems.forEach(item => {
+        item.addEventListener('click', function (e) {
             e.stopPropagation();
-            lightboxImg.src = this.src;
+
+            if (this.tagName === 'IMG') {
+                lightboxImg.src = this.src;
+                lightboxImg.style.display = 'block';
+                lightboxVideo.style.display = 'none';
+                lightboxVideo.pause();
+                lightboxVideo.src = "";
+            } else if (this.tagName === 'VIDEO') {
+                lightboxVideo.src = this.src;
+                lightboxVideo.style.display = 'block';
+                lightboxImg.style.display = 'none';
+                lightboxVideo.play();
+            }
+
             lightbox.classList.add('active');
             lightbox.classList.remove('closing');
         });
@@ -105,9 +119,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Funzione per chiudere con animazione
     function closeLightbox() {
         lightbox.classList.add('closing');
+
+        // Pausa il video se è in riproduzione
+        lightboxVideo.pause();
+        lightboxVideo.currentTime = 0;
+
         setTimeout(() => {
             lightbox.classList.remove('active');
             lightbox.classList.remove('closing');
+            lightboxVideo.src = ""; // Reset src
         }, 300); // durata animazione
     }
 
